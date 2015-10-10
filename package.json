@@ -1,0 +1,16 @@
+{
+  "name": "JSLINQ",
+  "version": "1.0.0",
+  "description": "An npm package to implement a .NET LINQ like queries for javascript",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "LINQ",
+    "Arrays",
+    "Query"
+  ],
+  "author": "Ahmed Eid",
+  "license": "ISC"
+}
