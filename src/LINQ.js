@@ -20,24 +20,33 @@
     this.toArray = toArray;
     this.where = where;
     this.select = select;
+    this.count = count;
 
 
     return this;
   }
   //API
-  function toArray(){
+  function toArray() {
     return this.list;
   }
 
-  function where(fn){
+  function where(fn) {
     var resArray = this.toArray().filter(parse(fn));
     return new LINQ(resArray);
   }
 
-  function select(fn){
+  function select(fn) {
     var resArray = this.toArray().map(parse(fn));
     return new LINQ(resArray);
   }
+
+  function count(fn) {
+    if (!fn) {
+      return this.toArray().length;
+    }
+    return this.toArray().filter(parse(fn)).length;
+  }
+
 
   //helpers
   function parse(query) {
@@ -51,7 +60,7 @@
     throw new Error("Not a valid fuction or lambda expression");
   }
 
-  function lambdaToFunction(expression){
+  function lambdaToFunction(expression) {
     var tokens = expression.split("=>");
     return (function() {
       var fn = "temp = function(" + tokens[0].trim() + "){return " + tokens[1].trim() + "}";
@@ -69,9 +78,9 @@
   }
 
   // add toLinq in Array.prototype
-  Array.prototype.toLINQ = function(){
-    return new LINQ(this);
-  }
-  //Exports functions
+  Array.prototype.toLINQ = function() {
+      return new LINQ(this);
+    }
+    //Exports functions
   return ctor;
 });

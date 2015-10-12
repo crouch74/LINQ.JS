@@ -54,4 +54,30 @@
     });
   });
 
+  //count suite
+  describe("Count function", function() {
+    it("Count - isNumber", function() {
+      expect(linqObj.count(filterFn)).toBeDefined();
+      expect(linqObj.count(filterExpression)).toBeDefined();
+      expect(typeof linqObj.count(filterFn)).toEqual(typeof 2);
+      expect(typeof linqObj.count(filterExpression)).toEqual(typeof 2);
+      expect(linqObj.count()).toBeDefined();
+      expect(typeof linqObj.count()).toEqual(typeof 2);
+    });
+
+    it("Count - without filter function", function() {
+      expect(linqObj.count()).toEqual(array.length);
+    });
+
+    it("Count - Function", function() {
+      expect(linqObj.count(filterFn)).toEqual(array.filter(filterFn).length);
+      expect(linqObj.count(filterFn)).toEqual(array.filter(filterFn).length);
+    });
+
+    it("Count - Lambda", function() {
+      expect(linqObj.count(filterExpression)).toEqual(array.filter(filterFn).length);
+      expect(linqObj.count(filterExpression)).toEqual(array.filter(filterFn).length);
+    });
+  });
+
 })();
