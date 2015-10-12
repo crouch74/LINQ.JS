@@ -1,8 +1,8 @@
 {
-  "name": "JSLINQ",
+  "name": "LINQ",
   "version": "1.0.0",
   "description": "An npm package to implement a .NET LINQ like queries for javascript",
-  "main": "JSLINQ.min.js",
+  "main": "LINQ.min.js",
   "scripts": {
     "test": "test"
   },

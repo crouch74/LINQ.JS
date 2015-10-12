@@ -11,7 +11,7 @@ module.exports = function(grunt) {
     uglify: {
       options: {
         mangle: {
-          except: ['JSLINQ']
+          except: ['LINQ']
         }
       },
       build: {

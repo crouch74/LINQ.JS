@@ -40,7 +40,7 @@ module.exports = function(config) {
 
       // Optional
       pageTitle: 'Unit Tests',
-      subPageTitle: 'JSLINQ Unit Tests Results'
+      subPageTitle: 'LINQ.js Unit Tests Results'
     },
 
     // web server port

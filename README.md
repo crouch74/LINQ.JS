@@ -7,7 +7,7 @@ An npm package to implement a .NET LINQ like queries for javascript
 With [npm](https://npmjs.org) do:
 
 ```
-npm install JSLINQ
+npm install LINQ
 ```
 
 # license
