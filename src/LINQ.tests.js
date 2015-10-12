@@ -71,12 +71,27 @@
 
     it("Count - Function", function() {
       expect(linqObj.count(filterFn)).toEqual(array.filter(filterFn).length);
-      expect(linqObj.count(filterFn)).toEqual(array.filter(filterFn).length);
     });
 
     it("Count - Lambda", function() {
       expect(linqObj.count(filterExpression)).toEqual(array.filter(filterFn).length);
-      expect(linqObj.count(filterExpression)).toEqual(array.filter(filterFn).length);
+    });
+  });
+
+  describe("Any function", function() {
+    it("Any - isBoolean", function() {
+      expect(linqObj.any(filterFn)).toBeDefined();
+      expect(linqObj.any(filterExpression)).toBeDefined();
+      expect(typeof linqObj.any(filterFn)).toEqual(typeof true);
+      expect(typeof linqObj.any(filterExpression)).toEqual(typeof true);
+    });
+
+    it("Any - Function", function() {
+      expect(linqObj.any(filterFn)).toEqual(array.some(filterFn));
+    });
+
+    it("Any - Lambda", function() {
+      expect(linqObj.any(filterExpression)).toEqual(array.some(filterFn));
     });
   });
 

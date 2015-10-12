@@ -21,7 +21,7 @@
     this.where = where;
     this.select = select;
     this.count = count;
-
+    
 
     return this;
   }
