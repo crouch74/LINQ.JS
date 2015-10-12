@@ -1,14 +1,7 @@
 (function() {
   "use strict";
 
-  //mocks
-  var array = [13,2,5,6,2,7,9,5,0,1,10,59];
-  var linqObj = new LINQ(array);
-  var filterFn = function(n){
-    return n > 5;
-  }
-  var filterExpression = "n=>n>5";
-
+  //suits
   //TO LINQ Suite
   describe("To LINQ", function() {
     it("To LINQ - Is defined", function() {
@@ -30,19 +23,35 @@
   });
 
   //where suite
-  describe("Where functions", function() {
-    it("Where - Chaining",function(){
+  describe("Where function", function() {
+    it("Where - Chaining", function() {
       expect(linqObj.where(filterFn).toArray).toBeDefined();
+      expect(linqObj.where(filterExpression).toArray).toBeDefined();
     });
 
-    it("Where - Function",function(){
+    it("Where - Function", function() {
       expect(linqObj.where(filterFn)).toEqual(new LINQ(array.filter(filterFn)));
     });
 
-    it("Where - Lambda",function(){
+    it("Where - Lambda", function() {
       expect(linqObj.where(filterExpression)).toEqual(new LINQ(array.filter(filterFn)));
     });
   });
 
+  //select suite
+  describe("Select function", function() {
+    it("Select - Chaining", function() {
+      expect(linqObj.select(selectFn).toArray).toBeDefined();
+      expect(linqObj.select(selectExpression).toArray).toBeDefined();
+    });
+
+    it("Select - Function", function() {
+      expect(linqObj.where(selectFn)).toEqual(new LINQ(array.map(selectFn)));
+    });
+
+    it("Select - Lambda", function() {
+      expect(linqObj.where(selectExpression)).toEqual(new LINQ(array.map(selectFn)));
+    });
+  });
 
 })();

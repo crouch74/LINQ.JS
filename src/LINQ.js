@@ -36,9 +36,6 @@
   //helpers
   function parse(query) {
     var lambdaRegex = /w*\s*=>\s*w*/
-    if(!fn){
-      throw new Error("Invalid function/lambda expression");
-    }
     if (isFunction(query)) {
       return query;
     }
