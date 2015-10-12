@@ -13,3 +13,6 @@ npm install LINQ
 # license
 
 ISC
+
+#TODO
+Implement toArray to support lazy evaluating.

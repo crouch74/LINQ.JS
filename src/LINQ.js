@@ -15,19 +15,19 @@
     if (!array || !(array instanceof Array))
       throw new Error("You need to provide an array");
 
-    this.list = array;
+    this._list = array;
     //API
     this.toArray = toArray;
     this.where = where;
     this.select = select;
     this.count = count;
-    
+    this.any = any;
 
     return this;
   }
   //API
   function toArray() {
-    return this.list;
+    return this._list;
   }
 
   function where(fn) {
@@ -47,10 +47,16 @@
     return this.toArray().filter(parse(fn)).length;
   }
 
+  function any(fn){
+    return this.toArray().some(parse(fn));
+  }
 
   //helpers
   function parse(query) {
     var lambdaRegex = /w*\s*=>\s*w*/
+    if(typeof query !== "string" && !query){
+      throw new Error("Not a valid fuction or lambda expression");
+    }
     if (isFunction(query)) {
       return query;
     }
