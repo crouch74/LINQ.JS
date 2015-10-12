@@ -30,12 +30,12 @@
   }
 
   function where(fn){
-    var resArray = this.list.filter(parse(fn));
+    var resArray = this.toArray().filter(parse(fn));
     return new LINQ(resArray);
   }
 
   function select(fn){
-    var resArray = this.list.map(parse(fn));
+    var resArray = this.toArray().map(parse(fn));
     return new LINQ(resArray);
   }
 
