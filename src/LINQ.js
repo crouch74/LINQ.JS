@@ -19,6 +19,7 @@
     //API
     this.toArray = toArray;
     this.where = where;
+    this.select = select;
 
 
     return this;
@@ -29,9 +30,14 @@
   }
 
   function where(fn){
-    return new LINQ(this.list.filter(parse(fn)));
+    var resArray = this.list.filter(parse(fn));
+    return new LINQ(resArray);
   }
 
+  function select(fn){
+    var resArray = this.list.map(parse(fn));
+    return new LINQ(resArray);
+  }
 
   //helpers
   function parse(query) {

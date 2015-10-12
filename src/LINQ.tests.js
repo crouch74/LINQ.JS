@@ -46,11 +46,11 @@
     });
 
     it("Select - Function", function() {
-      expect(linqObj.where(selectFn)).toEqual(new LINQ(array.map(selectFn)));
+      expect(linqObj.select(selectFn)).toEqual(new LINQ(array.map(selectFn)));
     });
 
     it("Select - Lambda", function() {
-      expect(linqObj.where(selectExpression)).toEqual(new LINQ(array.map(selectFn)));
+      expect(linqObj.select(selectExpression)).toEqual(new LINQ(array.map(selectFn)));
     });
   });
 
