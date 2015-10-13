@@ -62,4 +62,20 @@ var array = [{
   "id": 15,
   "firstName": "Suzanne",
   "lastName": "Chandler"
+}, {
+  "id": 16,
+  "firstName": "Suzanne",
+  "lastName": "Small"
+},{
+  "id": 17,
+  "firstName": "Karyn",
+  "lastName": "Harmon"
+}, {
+  "id": 18,
+  "firstName": "Alexandra",
+  "lastName": "Chandler"
+}, {
+  "id": 19,
+  "firstName": "Battle",
+  "lastName": "Duran"
 }];
