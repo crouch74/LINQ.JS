@@ -24,6 +24,9 @@
 
   //where suite
   describe("Where function", function() {
+    it("Where - defined",function(){
+      expect(new LINQ(array).where).toBeDefined();
+    });
     it("Where - Chaining", function() {
       expect((new LINQ(array)).where(filterFn).toArray).toBeDefined();
       expect((new LINQ(array)).where(filterExpression).toArray).toBeDefined();
@@ -40,6 +43,9 @@
 
   //select suite
   describe("Select function", function() {
+    it("Select - defined",function(){
+      expect(new LINQ(array).select).toBeDefined();
+    });
     it("Select - Chaining", function() {
       expect((new LINQ(array)).select(selectFn).toArray).toBeDefined();
       expect((new LINQ(array)).select(selectExpression).toArray).toBeDefined();
@@ -56,6 +62,9 @@
 
   //count suite
   describe("Count function", function() {
+    it("Count - defined",function(){
+      expect(new LINQ(array).count).toBeDefined();
+    });
     it("Count - isNumber", function() {
       expect((new LINQ(array)).count(filterFn)).toBeDefined();
       expect((new LINQ(array)).count(filterExpression)).toBeDefined();
@@ -80,6 +89,9 @@
 
   //any suite
   describe("Any function", function() {
+    it("Any - defined",function(){
+      expect(new LINQ(array).any).toBeDefined();
+    });
     it("Any - isBoolean", function() {
       expect((new LINQ(array)).any(filterFn)).toBeDefined();
       expect((new LINQ(array)).any(filterExpression)).toBeDefined();
@@ -120,6 +132,9 @@
 
   //sum suite
   describe("Sum function",function(){
+    it("Sum - defined",function(){
+      expect(new LINQ(array).sum).toBeDefined();
+    });
     it("Sum",function(){
       expect((new LINQ([1,2,3,4])).sum()).toEqual([1,2,3,4].reduce(function(c,l){return c + l},0));
     });
@@ -130,4 +145,17 @@
       expect((new LINQ(array)).sum("x=>x.id")).toEqual(array.map(function(x){return x.id}).reduce(function(c,l){return c + l},0));
     });
   })
+
+  //average suite
+  describe("Average function",function(){
+    it("Average - defined",function(){
+      expect(new LINQ(array).average).toBeDefined();
+    });
+    it("Average(lambda)",function(){
+      expect((new LINQ(array)).average("x=>x.id")).toEqual(array.map(function(d){return d.id}).reduce(function(c,l){return c+l;},0)/array.length)
+    });
+    it("Average()",function(){
+      expect((new LINQ([1,2,3,4,5,6,7,8,9,10])).average()).toEqual(5.5);
+    });
+  });
 })();

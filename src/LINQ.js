@@ -35,6 +35,7 @@
     this.count = count;
     this.any = any;
     this.sum = sum;
+    this.average = average;
 
     return this;
   }
@@ -79,7 +80,15 @@
     if (fn) {
       this.select(fn);
     }
-    return this.toArray().reduce(function(c,l){return c+l},0)
+    return this.toArray().reduce(function(c,l){return c+l},0);
+  }
+
+  function average(fn){
+    if(fn){
+      this.select(fn);
+    }
+    var a = this.toArray();
+    return a.reduce(function(c,l){return c+l},0)/a.length;
   }
 
   //evaluators
