@@ -52,6 +52,8 @@
     this.singleOrDefault = singleOrDefault;
     this.first = first;
     this.firstOrDefault = firstOrDefault;
+    this.last = last;
+    this.lastOrDefault = lastOrDefault;
 
     return this;
   }
@@ -196,6 +198,28 @@
       return null;
     }
     return a[0];
+  }
+
+  function last(fn){
+    if(fn){
+      this.where(fn);
+    }
+    var a = this.toArray();
+    if(a.length === 0){
+      throw new Error("Sequence doesn't contain any elements")
+    }
+    return a[a.length - 1];
+  }
+
+  function lastOrDefault(fn){
+    if(fn){
+      this.where(fn);
+    }
+    var a = this.toArray();
+    if(a.length === 0){
+      return null;
+    }
+    return a[a.length - 1];
   }
 
   //evaluators

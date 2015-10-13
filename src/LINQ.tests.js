@@ -438,7 +438,7 @@
       expect(new LINQ([1]).last()).toEqual(1);
     });
     it("Last - select - not single element array",function(){
-      expect(new LINQ([1,2,3,4,5]).last("x=>x.id<=3")).toEqual(3);
+      expect(new LINQ([1,2,3,4,5]).last("x=>x<=3")).toEqual(3);
     });
     it("Last - select - empty array",function(){
       expect(function(){new LINQ(array).last("x=>x.id>10000")}).toThrow();
@@ -463,7 +463,7 @@
       expect(new LINQ([1]).lastOrDefault()).toEqual(1);
     });
     it("LastOrDefault - select - not single element array",function(){
-      expect(new LINQ([1,2,3,4,5]).lastOrDefault("x=>x.id<=3")).toEqual(3);
+      expect(new LINQ([1,2,3,4,5]).lastOrDefault("x=>x<=3")).toEqual(3);
     });
     it("LastOrDefault - select - empty array",function(){
       expect(new LINQ(array).lastOrDefault("x=>x.id>10000")).toBeNull();
