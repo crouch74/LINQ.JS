@@ -50,6 +50,8 @@
     this.removeAll = removeAll;
     this.single = single;
     this.singleOrDefault = singleOrDefault;
+    this.first = first;
+    this.firstOrDefault = firstOrDefault;
 
     return this;
   }
@@ -168,6 +170,28 @@
     if(a.length > 1){
       throw new Error ("Sequene contains " + a.length + " elements")
     }
+    if(a.length === 0){
+      return null;
+    }
+    return a[0];
+  }
+
+  function first(fn){
+    if(fn){
+      this.where(fn);
+    }
+    var a = this.toArray();
+    if(a.length === 0){
+      throw new Error("Sequence doesn't contain any elements")
+    }
+    return a[0];
+  }
+
+  function firstOrDefault(fn){
+    if(fn){
+      this.where(fn);
+    }
+    var a = this.toArray();
     if(a.length === 0){
       return null;
     }
