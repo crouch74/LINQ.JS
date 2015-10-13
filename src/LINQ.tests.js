@@ -209,4 +209,22 @@
     })
 
   });
+
+  //take suite
+  describe("Take function",function(){
+    it("Take - defined",function(){
+      expect(new LINQ(array).take).toBeDefined();
+    });
+    it("Take - number",function(){
+      expect(new LINQ(array).take(5).toArray()).toEqual(array.slice(0,5));
+    });
+    it("Take - string",function(){
+      expect(function(){new LINQ(array).take("as")}).toThrow()
+    });
+
+    it("Skip - Take",function(){
+      expect(new LINQ([1,2,3,4,5,6,7,8,9,10]).skip(5).take(2).toArray()).toEqual([6,7]);
+    });
+  });
+
 })();

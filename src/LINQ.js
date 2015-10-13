@@ -28,6 +28,8 @@
     this._eWhere = eWhere;
     this._eSelect = eSelect;
     this._eSkip = eSkip;
+    this._eTake = eTake;
+    this._eSkipTake = eSkipTake;
 
     //API
     this.toArray = toArray;
@@ -39,6 +41,7 @@
     this.sum = sum;
     this.average = average;
     this.skip = skip;
+    this.take = take;
 
     return this;
   }
@@ -64,10 +67,14 @@
   }
 
   function skip(number) {
-    if(typeof number !== "number"){
-      throw new Error("Skip expects a number !")
-    }
+    checkIfNumber(number);
     this._enqueueExpression("skip", number);
+    return this;
+  }
+
+  function take(number) {
+    checkIfNumber(number);
+    this._enqueueExpression("take", number);
     return this;
   }
 
@@ -121,10 +128,26 @@
     this._setArray(this._getArray().slice(number));
   }
 
+  function eTake(number) {
+    this._setArray(this._getArray().slice(0,number));
+  }
+  function eSkipTake(numbers){
+    this._setArray(this._getArray().slice(numbers[0],numbers[0] + numbers[1]));
+  }
 
   //helpers
-  function _enqueueExpression(eFn,fn){
-    this._queriesQueue.push([eFn, fn]);
+  function _enqueueExpression(eFn,param){
+    var queue = this._queriesQueue;
+    if(queue.length >= 1){
+      var lastItemIndex = queue.length - 1;
+      var lastQuery = queue[lastItemIndex];
+      //combine skip-take queries
+      if(eFn === "take" && lastQuery[0] === "skip"){
+        queue[lastItemIndex] = ["skipTake",[lastQuery[1],param]];
+      }
+    }
+
+      queue.push([eFn, param]);
   }
 
   function _evaluateExpressions() {
@@ -140,15 +163,6 @@
       }else{
         throw new Error("Unhandled query !")
       }
-      // switch (eFn) {
-      //   case "select":
-      //     this._eSelect(fn);
-      //     break;
-      //   case "where":
-      //     this._eWhere(fn);
-      //     break;
-      // }
-
     }
   }
 
@@ -180,6 +194,13 @@
   function isFunction(obj) {
     //isFunction from underscore.js
     return !!(obj && obj.constructor && obj.call && obj.apply);
+  }
+
+  function checkIfNumber(number){
+    if(typeof number !== "number"){
+      throw new Error("Skip expects a number !")
+    }
+    return true;
   }
 
   function ctor(array) {
