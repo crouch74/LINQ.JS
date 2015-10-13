@@ -132,6 +132,9 @@
 
   function lambdaToFunction(expression) {
     var tokens = expression.split("=>");
+    if(tokens.length > 2){
+      throw new Error("LINQ.js doesn't support nested lambda yet!")
+    }
     return (function() {
       var fn = "temp = function(" + tokens[0].trim() + "){return " + tokens[1].trim() + "}";
       return eval(fn)
