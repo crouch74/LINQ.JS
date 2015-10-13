@@ -323,5 +323,53 @@
     });
   });
 
+  //single suite
+  describe("Single function",function(){
+    it("Single - defined",function(){
+      expect(new LINQ(array).single).toBeDefined();
+    });
+    it("Single - not single element array",function(){
+      expect(function(){new LINQ(array).single()}).toThrow();
+    });
+    it("Single - empty array",function(){
+      expect(function(){new LINQ([]).single()}).toThrow();
+    });
+    it("Single - single element array",function(){
+      expect(new LINQ([1]).single()).toEqual(1);
+    });
+    it("Single - select - not single element array",function(){
+      expect(function(){new LINQ(array).single("x=>x.id>0")}).toThrow();
+    });
+    it("Single - select - empty array",function(){
+      expect(function(){new LINQ(array).single("x=>x.id>10000")}).toThrow();
+    });
+    it("Single - select - single element array",function(){
+      expect(new LINQ(array).single("x=>x.id==1")).toEqual(array[1]);
+    });
+  });
 
+  //singleOrDefault suite
+  describe("SingleOrDefault function",function(){
+    it("SingleOrDefault - defined",function(){
+      expect(new LINQ(array).singleOrDefault).toBeDefined();
+    });
+    it("SingleOrDefault - not single element array",function(){
+      expect(function(){new LINQ(array).singleOrDefault()}).toThrow();
+    });
+    it("SingleOrDefault - empty array",function(){
+      expect(new LINQ([]).singleOrDefault()).toBeNull();
+    });
+    it("SingleOrDefault - single element array",function(){
+      expect(new LINQ([1]).singleOrDefault()).toEqual(1);
+    });
+    it("SingleOrDefault - select - not single element array",function(){
+      expect(function(){new LINQ(array).singleOrDefault("x=>x.id>0")}).toThrow();
+    });
+    it("SingleOrDefault - select - empty array",function(){
+      expect(new LINQ(array).singleOrDefault("x=>x.id>10000")).toBeNull();
+    });
+    it("SingleOrDefault - select - single element array",function(){
+      expect(new LINQ(array).singleOrDefault("x=>x.id==1")).toEqual(array[1]);
+    });
+  });
 })();

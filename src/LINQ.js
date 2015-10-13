@@ -48,6 +48,8 @@
     this.min = min;
     this.reverse = reverse;
     this.removeAll = removeAll;
+    this.single = single;
+    this.singleOrDefault = singleOrDefault;
 
     return this;
   }
@@ -144,6 +146,33 @@
     return a.reduce(function(c,l){return c+l},0)/a.length;
   }
 
+  function single(fn){
+    if(fn){
+      this.where(fn);
+    }
+    var a = this.toArray();
+    if(a.length > 1){
+      throw new Error ("Sequene contains " + a.length + " elements")
+    }
+    if(a.length === 0){
+      throw new Error ("Sequene doesn't contain any elements")
+    }
+    return a[0];
+  }
+
+  function singleOrDefault(fn){
+    if(fn){
+      this.where(fn);
+    }
+    var a = this.toArray();
+    if(a.length > 1){
+      throw new Error ("Sequene contains " + a.length + " elements")
+    }
+    if(a.length === 0){
+      return null;
+    }
+    return a[0];
+  }
 
   //evaluators
 
