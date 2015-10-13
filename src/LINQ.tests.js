@@ -423,4 +423,54 @@
     });
   });
 
+  //last suite
+  describe("Last function",function(){
+    it("Last - defined",function(){
+      expect(new LINQ(array).last).toBeDefined();
+    });
+    it("Last - not single element array",function(){
+      expect(new LINQ(array).last()).toEqual(array[array.length - 1]);
+    });
+    it("Last - empty array",function(){
+      expect(function(){new LINQ([]).last()}).toThrow();
+    });
+    it("Last - single element array",function(){
+      expect(new LINQ([1]).last()).toEqual(1);
+    });
+    it("Last - select - not single element array",function(){
+      expect(new LINQ([1,2,3,4,5]).last("x=>x.id<=3")).toEqual(3);
+    });
+    it("Last - select - empty array",function(){
+      expect(function(){new LINQ(array).last("x=>x.id>10000")}).toThrow();
+    });
+    it("Last - select - single element array",function(){
+      expect(new LINQ(array).last("x=>x.id==1")).toEqual(array[1]);
+    });
+  });
+
+  //lastOrDefault suite
+  describe("LastOrDefault function",function(){
+    it("LastOrDefault - defined",function(){
+      expect(new LINQ(array).lastOrDefault).toBeDefined();
+    });
+    it("LastOrDefault - not single element array",function(){
+      expect(new LINQ(array).lastOrDefault()).toEqual(array[array.length -1]);
+    });
+    it("LastOrDefault - empty array",function(){
+      expect(new LINQ([]).lastOrDefault()).toBeNull();
+    });
+    it("LastOrDefault - single element array",function(){
+      expect(new LINQ([1]).lastOrDefault()).toEqual(1);
+    });
+    it("LastOrDefault - select - not single element array",function(){
+      expect(new LINQ([1,2,3,4,5]).lastOrDefault("x=>x.id<=3")).toEqual(3);
+    });
+    it("LastOrDefault - select - empty array",function(){
+      expect(new LINQ(array).lastOrDefault("x=>x.id>10000")).toBeNull();
+    });
+    it("LastOrDefault - select - single element array",function(){
+      expect(new LINQ(array).lastOrDefault("x=>x.id==1")).toEqual(array[1]);
+    });
+  });
+
 })();
