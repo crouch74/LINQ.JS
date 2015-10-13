@@ -15,4 +15,5 @@ npm install LINQ
 ISC
 
 #TODO
+Implemnt evaluate queries on array only on toArray
 Implement toArray to support lazy evaluating.
