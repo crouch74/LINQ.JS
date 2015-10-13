@@ -372,4 +372,55 @@
       expect(new LINQ(array).singleOrDefault("x=>x.id==1")).toEqual(array[1]);
     });
   });
+
+  //first suite
+  describe("First function",function(){
+    it("First - defined",function(){
+      expect(new LINQ(array).first).toBeDefined();
+    });
+    it("First - not single element array",function(){
+      expect(new LINQ(array).first()).toEqual(array[0]);
+    });
+    it("First - empty array",function(){
+      expect(function(){new LINQ([]).first()}).toThrow();
+    });
+    it("First - single element array",function(){
+      expect(new LINQ([1]).first()).toEqual(1);
+    });
+    it("First - select - not single element array",function(){
+      expect(new LINQ(array).first("x=>x.id>0")).toEqual(array.filter(x=>x.id>0)[0]);
+    });
+    it("First - select - empty array",function(){
+      expect(function(){new LINQ(array).first("x=>x.id>10000")}).toThrow();
+    });
+    it("First - select - single element array",function(){
+      expect(new LINQ(array).first("x=>x.id==1")).toEqual(array[1]);
+    });
+  });
+
+  //firstOrDefault suite
+  describe("FirstOrDefault function",function(){
+    it("FirstOrDefault - defined",function(){
+      expect(new LINQ(array).firstOrDefault).toBeDefined();
+    });
+    it("FirstOrDefault - not single element array",function(){
+      expect(new LINQ(array).firstOrDefault()).toEqual(array[0]);
+    });
+    it("FirstOrDefault - empty array",function(){
+      expect(new LINQ([]).firstOrDefault()).toBeNull();
+    });
+    it("FirstOrDefault - single element array",function(){
+      expect(new LINQ([1]).firstOrDefault()).toEqual(1);
+    });
+    it("FirstOrDefault - select - not single element array",function(){
+      expect(new LINQ(array).firstOrDefault("x=>x.id>0")).toEqual(array.filter(x=>x.id>0)[0]);
+    });
+    it("FirstOrDefault - select - empty array",function(){
+      expect(new LINQ(array).firstOrDefault("x=>x.id>10000")).toBeNull();
+    });
+    it("FirstOrDefault - select - single element array",function(){
+      expect(new LINQ(array).firstOrDefault("x=>x.id==1")).toEqual(array[1]);
+    });
+  });
+
 })();
