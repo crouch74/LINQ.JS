@@ -303,5 +303,25 @@
     });
   });
 
+  //removeAll suite
+  describe("ٌRemoveAll function", function() {
+    it("ٌRemoveAll - defined",function(){
+      expect(new LINQ(array).removeAll).toBeDefined();
+    });
+    it("ٌRemoveAll - Chaining", function() {
+      expect((new LINQ(array)).removeAll("x=>x.id > 5").toArray).toBeDefined();
+    });
+
+    it("ٌRemoveAll - function", function() {
+      expect((new LINQ(array)).removeAll(function(d){return d.id > 5}).toArray()).toEqual(array.filter(function(d){return !(d.id > 5)}));
+      expect((new LINQ([1,2,3,4,5,6,7,8,9])).removeAll(function(d){return d > 5;}).toArray()).toEqual([1,2,3,4,5]);
+    });
+
+    it("ٌRemoveAll - lambda", function() {
+      expect((new LINQ(array)).removeAll("d=>d.id>5").toArray()).toEqual(array.filter(function(d){return !(d.id > 5)}));
+      expect((new LINQ([1,2,3,4,5,6,7,8,9])).removeAll("d=>d>5").toArray()).toEqual([1,2,3,4,5]);
+    });
+  });
+
 
 })();

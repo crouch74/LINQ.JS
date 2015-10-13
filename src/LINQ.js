@@ -31,6 +31,7 @@
     this._eTake = eTake;
     this._eSkipTake = eSkipTake;
     this._eReverse = eReverse;
+    this._eRemoveAll = eRemoveAll;
 
     //API
     this.toArray = toArray;
@@ -46,6 +47,8 @@
     this.max = max;
     this.min = min;
     this.reverse = reverse;
+    this.removeAll = removeAll;
+
     return this;
   }
 
@@ -89,6 +92,11 @@
 
   function reverse(){
     this._enqueueExpression("reverse");
+    return this;
+  }
+
+  function removeAll(fn){
+    this._enqueueExpression("removeAll",fn);
     return this;
   }
 
@@ -159,8 +167,13 @@
     this._setArray(this._getArray().slice(numbers[0],numbers[0] + numbers[1]));
   }
 
-  function eReverse(numbers){
+  function eReverse(){
     this._setArray(this._getArray().reverse());
+  }
+
+  function eRemoveAll(fn) {
+    fn = parse(fn);
+    this._setArray(this._getArray().filter(function(d){return !fn(d);}));
   }
 
   //helpers
