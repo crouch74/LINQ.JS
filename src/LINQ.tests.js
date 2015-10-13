@@ -222,9 +222,39 @@
       expect(function(){new LINQ(array).take("as")}).toThrow()
     });
 
-    it("Skip - Take",function(){
+    it("Skip -> Take",function(){
       expect(new LINQ([1,2,3,4,5,6,7,8,9,10]).skip(5).take(2).toArray()).toEqual([6,7]);
     });
   });
+
+  //max suite
+  describe("Max function",function(){
+    it("Max - defined",function(){
+      expect(new LINQ(array).max).toBeDefined();
+    });
+    it("Max - numbers",function(){
+      expect(new LINQ([1,2,3,4,5,6,7,8]).max()).toEqual(8);
+    });
+    it("Max - strings",function(){
+      expect(new LINQ(["a","b","c"]).max()).toEqual(NaN);
+    });
+
+    it("Max objects good selection function",function(){
+      expect(new LINQ(array).max(function(d){return d.id})).toEqual(Math.max.apply(null,array.map(o=>o.id)));
+    });
+
+    it("Max objects bad selection function",function(){
+      expect(new LINQ(array).max(function(d){return d.firstName})).toEqual(NaN);
+    });
+
+    it("Max objects good selection lambda",function(){
+      expect(new LINQ(array).max("d=>d.id")).toEqual(Math.max.apply(null,array.map(o=>o.id)));
+    });
+
+    it("Max objects bad selection lambda",function(){
+      expect(new LINQ(array).max("d=>d.firstName")).toEqual(NaN);
+    });
+  });
+
 
 })();

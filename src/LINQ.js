@@ -42,6 +42,7 @@
     this.average = average;
     this.skip = skip;
     this.take = take;
+    this.max = max;
 
     return this;
   }
@@ -88,6 +89,13 @@
       this.where(fn);
     }
     return this.toArray().length;
+  }
+
+  function max(fn) {
+    if (fn) {
+      this.select(fn);
+    }
+    return Math.max.apply(null,this.toArray());
   }
 
   function any(fn) {
