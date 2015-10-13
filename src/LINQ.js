@@ -16,6 +16,17 @@
       throw new Error("You need to provide an array");
 
     this._list = array;
+    this._queriesQueue = [];
+
+    this._getArray = _getArray;
+    this._setArray = _setArray;
+
+    this._evaluateExpressions = _evaluateExpressions;
+
+    //evaluators
+    this._eWhere = eWhere;
+    this._eSelect = eSelect;
+
     //API
     this.toArray = toArray;
     this.where = where;
@@ -25,19 +36,30 @@
 
     return this;
   }
+
+  //private
+  function _getArray() {
+    return this._list;
+  }
+
+  function _setArray(array) {
+    this._list = array;
+  }
+
   //API
   function toArray() {
+    this._evaluateExpressions();
     return this._list;
   }
 
   function where(fn) {
-    var resArray = this.toArray().filter(parse(fn));
-    return new LINQ(resArray);
+    this._queriesQueue.push(["where", fn])
+    return this;
   }
 
   function select(fn) {
-    var resArray = this.toArray().map(parse(fn));
-    return new LINQ(resArray);
+    this._queriesQueue.push(["select", fn])
+    return this;
   }
 
   function count(fn) {
@@ -47,14 +69,45 @@
     return this.toArray().filter(parse(fn)).length;
   }
 
-  function any(fn){
+  function any(fn) {
     return this.toArray().some(parse(fn));
   }
 
+
+
+  //evaluators
+
+  function eWhere(fn) {
+    this._setArray(this._getArray().filter(parse(fn)));
+  }
+
+  function eSelect(fn) {
+    this._setArray(this._getArray().map(parse(fn)));
+  }
+
+
   //helpers
+  function _evaluateExpressions() {
+    while (this._queriesQueue.length > 0) {
+      var query = this._queriesQueue.shift();
+      var eFn = query[0];
+      var fn = query[1];
+
+      switch (eFn) {
+        case "select":
+          this._eSelect(fn);
+          break;
+        case "where":
+          this._eWhere(fn);
+          break;
+      }
+
+    }
+  }
+
   function parse(query) {
     var lambdaRegex = /w*\s*=>\s*w*/
-    if(typeof query !== "string" && !query){
+    if (typeof query !== "string" && !query) {
       throw new Error("Not a valid fuction or lambda expression");
     }
     if (isFunction(query)) {

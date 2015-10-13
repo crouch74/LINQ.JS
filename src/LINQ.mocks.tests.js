@@ -63,5 +63,3 @@ var array = [{
   "firstName": "Suzanne",
   "lastName": "Chandler"
 }];
-
-var linqObj = new LINQ(array);
