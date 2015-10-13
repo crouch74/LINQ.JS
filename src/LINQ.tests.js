@@ -256,5 +256,34 @@
     });
   });
 
+  //min suite
+  describe("Min function",function(){
+    it("Min - defined",function(){
+      expect(new LINQ(array).min).toBeDefined();
+    });
+    it("Min - numbers",function(){
+      expect(new LINQ([1,2,3,4,5,6,7,8]).min()).toEqual(1);
+    });
+    it("Min - strings",function(){
+      expect(new LINQ(["a","b","c"]).min()).toEqual(NaN);
+    });
+
+    it("Min objects good selection function",function(){
+      expect(new LINQ(array).min(function(d){return d.id})).toEqual(Math.min.apply(null,array.map(o=>o.id)));
+    });
+
+    it("Min objects bad selection function",function(){
+      expect(new LINQ(array).min(function(d){return d.firstName})).toEqual(NaN);
+    });
+
+    it("Min objects good selection lambda",function(){
+      expect(new LINQ(array).min("d=>d.id")).toEqual(Math.min.apply(null,array.map(o=>o.id)));
+    });
+
+    it("Min objects bad selection lambda",function(){
+      expect(new LINQ(array).min("d=>d.firstName")).toEqual(NaN);
+    });
+  });
+
 
 })();

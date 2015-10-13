@@ -43,7 +43,8 @@
     this.skip = skip;
     this.take = take;
     this.max = max;
-
+    this.min = min;
+    
     return this;
   }
 
@@ -96,6 +97,13 @@
       this.select(fn);
     }
     return Math.max.apply(null,this.toArray());
+  }
+
+  function min(fn) {
+    if (fn) {
+      this.select(fn);
+    }
+    return Math.min.apply(null,this.toArray());
   }
 
   function any(fn) {
