@@ -285,5 +285,23 @@
     });
   });
 
+  //reverse suite
+  describe("Reverse function", function() {
+    it("Reverse - defined",function(){
+      expect(new LINQ(array).reverse).toBeDefined();
+    });
+    it("Reverse - Chaining", function() {
+      expect((new LINQ(array)).reverse().toArray).toBeDefined();
+    });
+
+    it("Reverse - array of objects", function() {
+      expect((new LINQ(array)).reverse().toArray()).toEqual(array.reverse());
+    });
+
+    it("Reverse - array of numbers", function() {
+      expect((new LINQ([1,2,3,4,5])).reverse().toArray()).toEqual([5,4,3,2,1]);
+    });
+  });
+
 
 })();

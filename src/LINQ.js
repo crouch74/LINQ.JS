@@ -30,6 +30,7 @@
     this._eSkip = eSkip;
     this._eTake = eTake;
     this._eSkipTake = eSkipTake;
+    this._eReverse = eReverse;
 
     //API
     this.toArray = toArray;
@@ -44,7 +45,7 @@
     this.take = take;
     this.max = max;
     this.min = min;
-    
+    this.reverse = reverse;
     return this;
   }
 
@@ -82,6 +83,12 @@
 
   function select(fn) {
     this._enqueueExpression("select", fn);
+    return this;
+  }
+
+
+  function reverse(){
+    this._enqueueExpression("reverse");
     return this;
   }
 
@@ -147,8 +154,13 @@
   function eTake(number) {
     this._setArray(this._getArray().slice(0,number));
   }
+
   function eSkipTake(numbers){
     this._setArray(this._getArray().slice(numbers[0],numbers[0] + numbers[1]));
+  }
+
+  function eReverse(numbers){
+    this._setArray(this._getArray().reverse());
   }
 
   //helpers
