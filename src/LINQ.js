@@ -27,6 +27,7 @@
     //evaluators
     this._eWhere = eWhere;
     this._eSelect = eSelect;
+    this._eSkip = eSkip;
 
     //API
     this.toArray = toArray;
@@ -37,6 +38,7 @@
     this.all = all;
     this.sum = sum;
     this.average = average;
+    this.skip = skip;
 
     return this;
   }
@@ -58,6 +60,14 @@
 
   function where(fn) {
     this._enqueueExpression("where", fn);
+    return this;
+  }
+
+  function skip(number) {
+    if(typeof number !== "number"){
+      throw new Error("Skip expects a number !")
+    }
+    this._enqueueExpression("skip", number);
     return this;
   }
 
@@ -107,6 +117,10 @@
     this._setArray(this._getArray().map(parse(fn)));
   }
 
+  function eSkip(number) {
+    this._setArray(this._getArray().slice(number));
+  }
+
 
   //helpers
   function _enqueueExpression(eFn,fn){
@@ -119,14 +133,21 @@
       var eFn = query[0];
       var fn = query[1];
 
-      switch (eFn) {
-        case "select":
-          this._eSelect(fn);
-          break;
-        case "where":
-          this._eWhere(fn);
-          break;
+      eFn = eFn.charAt(0).toUpperCase() + eFn.slice(1)
+      eFn = "_e"+ eFn;
+      if(this[eFn]){
+        this[eFn](fn);
+      }else{
+        throw new Error("Unhandled query !")
       }
+      // switch (eFn) {
+      //   case "select":
+      //     this._eSelect(fn);
+      //     break;
+      //   case "where":
+      //     this._eWhere(fn);
+      //     break;
+      // }
 
     }
   }

@@ -195,4 +195,18 @@
       expect((new LINQ(array)).all(function(x){return x.id > 1})).toBeFalsy();
     });
   });
+
+  //skip suite
+  describe("Skip function",function(){
+    it("Skip - defined",function(){
+      expect(new LINQ(array).skip).toBeDefined();
+    });
+    it("Skip - number",function(){
+      expect(new LINQ(array).skip(5).toArray()).toEqual(array.slice(5));
+    });
+    it("Skip - string",function(){
+      expect(function(){new LINQ(array).skip("as")}).toThrow()
+    })
+
+  });
 })();
