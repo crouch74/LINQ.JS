@@ -96,7 +96,6 @@
     });
   });
 
-
   //multiple queries suite
   describe("Multiple queries",function(){
     it("Where(fn)=>Select(fn)",function(){
@@ -118,4 +117,17 @@
       expect(new LINQ(array).where(filterExpression).select(selectFn).where(filterFn_2).toArray()).toEqual(array.filter(filterFn).map(selectFn).filter(filterFn_2));
     });
   });
+
+  //sum suite
+  describe("Sum function",function(){
+    it("Sum",function(){
+      expect((new LINQ([1,2,3,4])).sum()).toEqual([1,2,3,4].reduce(function(c,l){return c + l},0));
+    });
+    it("Select => Sum",function(){
+      expect((new LINQ(array)).select("x=>x.id").sum()).toEqual(array.map(function(x){return x.id}).reduce(function(c,l){return c + l},0));
+    });
+    it("Sum(lambda)",function(){
+      expect((new LINQ(array)).sum("x=>x.id")).toEqual(array.map(function(x){return x.id}).reduce(function(c,l){return c + l},0));
+    });
+  })
 })();

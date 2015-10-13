@@ -33,6 +33,7 @@
     this.select = select;
     this.count = count;
     this.any = any;
+    this.sum = sum;
 
     return this;
   }
@@ -63,17 +64,22 @@
   }
 
   function count(fn) {
-    if (!fn) {
-      return this.toArray().length;
+    if (fn) {
+      this._queriesQueue.push(["where", fn])
     }
-    return this.toArray().filter(parse(fn)).length;
+    return this.toArray().length;
   }
 
   function any(fn) {
     return this.toArray().some(parse(fn));
   }
 
-
+  function sum(fn){
+    if (fn) {
+      this._queriesQueue.push(["select", fn])
+    }
+    return this.toArray().reduce(function(c,l){return c+l},0)
+  }
 
   //evaluators
 
