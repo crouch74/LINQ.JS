@@ -21,6 +21,7 @@
     this._getArray = _getArray;
     this._setArray = _setArray;
 
+    this._enqueueExpression = _enqueueExpression;
     this._evaluateExpressions = _evaluateExpressions;
 
     //evaluators
@@ -54,18 +55,18 @@
   }
 
   function where(fn) {
-    this._queriesQueue.push(["where", fn])
+    this._enqueueExpression("where", fn);
     return this;
   }
 
   function select(fn) {
-    this._queriesQueue.push(["select", fn])
+    this._enqueueExpression("select", fn);
     return this;
   }
 
   function count(fn) {
     if (fn) {
-      this._queriesQueue.push(["where", fn])
+      this.where(fn);
     }
     return this.toArray().length;
   }
@@ -76,7 +77,7 @@
 
   function sum(fn){
     if (fn) {
-      this._queriesQueue.push(["select", fn])
+      this.select(fn);
     }
     return this.toArray().reduce(function(c,l){return c+l},0)
   }
@@ -93,6 +94,10 @@
 
 
   //helpers
+  function _enqueueExpression(eFn,fn){
+    this._queriesQueue.push([eFn, fn]);
+  }
+
   function _evaluateExpressions() {
     while (this._queriesQueue.length > 0) {
       var query = this._queriesQueue.shift();
