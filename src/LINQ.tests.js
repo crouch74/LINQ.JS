@@ -106,6 +106,14 @@
     it("Any - Lambda", function() {
       expect((new LINQ(array)).any(filterExpression)).toEqual(array.some(filterFn));
     });
+
+    it("Any - Lambda - Falsy", function() {
+      expect((new LINQ(array)).any("x=>x.id>1000")).toBeFalsy()
+    });
+
+    it("Any - Function - False", function() {
+      expect((new LINQ(array)).any(function(x){return x.id > 1000})).toBeFalsy();
+    });
   });
 
   //multiple queries suite
@@ -156,6 +164,35 @@
     });
     it("Average()",function(){
       expect((new LINQ([1,2,3,4,5,6,7,8,9,10])).average()).toEqual(5.5);
+    });
+  });
+
+  //all suite
+  describe("All function", function() {
+    it("All - defined",function(){
+      expect(new LINQ(array).all).toBeDefined();
+    });
+    it("All - isBoolean", function() {
+      expect((new LINQ(array)).all(filterFn)).toBeDefined();
+      expect((new LINQ(array)).all(filterExpression)).toBeDefined();
+      expect(typeof (new LINQ(array)).all(filterFn)).toEqual(typeof true);
+      expect(typeof (new LINQ(array)).all(filterExpression)).toEqual(typeof true);
+    });
+
+    it("All - Function", function() {
+      expect((new LINQ(array)).all(filterFn)).toEqual(array.every(filterFn));
+    });
+
+    it("All - Lambda", function() {
+      expect((new LINQ(array)).all(filterExpression)).toEqual(array.every(filterFn));
+    });
+
+    it("All - Lambda - Falsy", function() {
+      expect((new LINQ(array)).all("x=>x.id>1")).toBeFalsy()
+    });
+
+    it("All - Function - False", function() {
+      expect((new LINQ(array)).all(function(x){return x.id > 1})).toBeFalsy();
     });
   });
 })();
