@@ -89,6 +89,10 @@
         valueFn = parse(valueFn);
         this._list = arrayToDictionary(this._list,keyFn,valueFn);
       }
+    }else if (keyFn || valueFn) {
+      keyFn = parse(keyFn || "x=>x");
+      valueFn = parse(valueFn || "x=>x");
+      this._list = mapDictionary(this._list,keyFn,valueFn)
     }
     return this._list;
   }
@@ -97,8 +101,8 @@
     this._enqueueExpression("where", fn);
     return this;
   }
-  function groupBy(fn) {
-    this._enqueueExpression("groupBy", fn);
+  function groupBy(keyFn,valueFn) {
+    this._enqueueExpression("groupBy", [keyFn,valueFn || "x=>x"]);
     return this;
   }
 
@@ -277,14 +281,16 @@
     this._setArray(this._getArray().filter(function(d){return !fn(d);}));
   }
 
-  function eGroupBy(fn) {
-    fn = parse(fn);
+  function eGroupBy(mappingFunctions) {
+    keyFn = parse(mappingFunctions[0]);
+    valueFn = parse(mappingFunctions[1]);
     this._setArray(this._getArray().reduce(function(c,l){
-      var key = fn(l);
+      var key = keyFn(l);
+      var value = valueFn(l);
       if(c[key]){
-        c[key].push(l);
+        c[key].push(value);
       }else{
-        c[key] = [l];
+        c[key] = [value];
       }
       return c;
     },{}));
@@ -363,6 +369,13 @@
     return keys.map(function(key){
       return [key,dic[key]];
     });
+  }
+
+  function mapDictionary(dict,keyFn,valueFn){
+    return Object.keys(dict).reduce(function(c,l){
+      c[keyFn(l)] = valueFn(dict[l]);
+      return c;
+    },{})
   }
 
   function arrayToDictionary(array,keyFn,valueFn){

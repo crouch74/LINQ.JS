@@ -36,6 +36,9 @@
     it("To Dictionary - Array with mapping",function(){
       expect(new LINQ(array).toDictionary("x=>x.id","x=>x.firstName")).toEqual(idFirstNameDict);
     });
+    it("To Dictionary - firstName as key , count as value",function(){
+      expect(new LINQ(array).groupBy("x=>x.firstName").toDictionary("x=>x","x=>x.length")).toEqual(firstNamesCounts);
+    });
   })
 
   //where suite
@@ -502,6 +505,9 @@
     });
     it("GroupBy - firstname as a key - toDictionary",function(){
       expect(new LINQ(array).groupBy("m=>m.firstName").toDictionary()).toEqual(groupedNames);
+    });
+    it("GroupBy - group by id as key and firstName as value",function(){
+      expect(new LINQ(array).groupBy("m=>m.id","m=>m.firstName").toDictionary(null,"x=>x[0]")).toEqual(idFirstNameDict);
     });
   });
 })();

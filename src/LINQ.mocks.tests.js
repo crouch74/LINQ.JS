@@ -90,6 +90,8 @@ var groupedNames = {"Harding":[{"id":0,"firstName":"Harding","lastName":"Mills"}
 
 var groupedNamesArray = Object.keys(groupedNames).map(key=>[key,groupedNames[key]]);
 
+var firstNamesCounts = {"Harding":1,"Kristine":1,"Johnson":1,"Owens":1,"Farmer":1,"Turner":1,"Gina":1,"Clay":1,"Battle":2,"Aguirre":1,"Powell":1,"Mcconnell":1,"Alexandra":2,"Brandi":1,"Karyn":2,"Suzanne":2};
+
 var idFirstNameDict = array.reduce(function(c,l){
   c[l.id] =l.firstName;
   return c;
