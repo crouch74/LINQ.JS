@@ -510,4 +510,24 @@
       expect(new LINQ(array).groupBy("m=>m.id","m=>m.firstName").toDictionary(null,"x=>x[0]")).toEqual(idFirstNameDict);
     });
   });
+
+  //orderBy suite
+  describe("OrderBy function",function(){
+    it("OrderBy - Is defined",function(){
+      expect(new LINQ(array).orderBy).toBeDefined();
+    });
+    it("OrderBy - firstName",function(){
+      expect(new LINQ(array).where("x=>x.id<=10").orderBy("x=>x.firstName").select("x=>x.id").toArray()).toEqual([9, 8,  7, 4, 6, 0, 2, 1, 3, 10, 5]);
+    });
+  });
+
+  //orderByDescending suite
+  describe("OrderByDescending function",function(){
+    it("OrderByDescending - Is defined",function(){
+      expect(new LINQ(array).orderByDescending).toBeDefined();
+    });
+    it("OrderByDescending - firstName",function(){
+      expect(new LINQ(array).where("x=>x.id<=10").orderByDescending("x=>x.firstName").select("x=>x.id").toArray()).toEqual([5, 10, 3, 1, 2, 0, 6, 4, 7, 8, 9]);
+    });
+  });
 })();

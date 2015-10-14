@@ -33,6 +33,8 @@
     this._eReverse = eReverse;
     this._eRemoveAll = eRemoveAll;
     this._eGroupBy = eGroupBy;
+    this._eOrderBy = eOrderBy;
+
 
     //API
     this.toArray = toArray;
@@ -57,6 +59,8 @@
     this.last = last;
     this.lastOrDefault = lastOrDefault;
     this.groupBy = groupBy;
+    this.orderBy = orderBy;
+    this.orderByDescending = orderByDescending;
 
     return this;
   }
@@ -107,13 +111,13 @@
   }
 
   function skip(number) {
-    checkIfNumber(number);
+    checkIfNumber(number,"Skip");
     this._enqueueExpression("skip", number);
     return this;
   }
 
   function take(number) {
-    checkIfNumber(number);
+    checkIfNumber(number,"Take");
     this._enqueueExpression("take", number);
     return this;
   }
@@ -134,7 +138,18 @@
     return this;
   }
 
+  function orderBy(fn){
+    this._enqueueExpression("orderBy",fn);
+    return this;
+  }
+
+  function orderByDescending(fn){
+    this.orderBy(fn).reverse();
+    return this;
+  }
+
   function count(fn) {
+    checkIflist(this._list,"Count");
     if (fn) {
       this.where(fn);
     }
@@ -142,6 +157,7 @@
   }
 
   function max(fn) {
+    checkIflist(this._list,"Max");
     if (fn) {
       this.select(fn);
     }
@@ -149,6 +165,7 @@
   }
 
   function min(fn) {
+    checkIflist(this._list,"Min");
     if (fn) {
       this.select(fn);
     }
@@ -156,14 +173,17 @@
   }
 
   function any(fn) {
+    checkIflist(this._list,"Any");
     return this.toArray().some(parse(fn));
   }
 
   function all(fn){
+    checkIflist(this._list,"All");
     return this.toArray().every(parse(fn));
   }
 
   function sum(fn){
+    checkIflist(this._list,"Sum");
     if (fn) {
       this.select(fn);
     }
@@ -171,6 +191,7 @@
   }
 
   function average(fn){
+    checkIflist(this._list,"Average");
     if(fn){
       this.select(fn);
     }
@@ -179,6 +200,7 @@
   }
 
   function single(fn){
+    checkIflist(this._list,"Single");
     if(fn){
       this.where(fn);
     }
@@ -193,6 +215,7 @@
   }
 
   function singleOrDefault(fn){
+    checkIflist(this._list,"SingleOrDefault");
     if(fn){
       this.where(fn);
     }
@@ -207,6 +230,7 @@
   }
 
   function first(fn){
+    checkIflist(this._list,"First");
     if(fn){
       this.where(fn);
     }
@@ -218,6 +242,7 @@
   }
 
   function firstOrDefault(fn){
+    checkIflist(this._list,"FirstOrDefault");
     if(fn){
       this.where(fn);
     }
@@ -229,6 +254,7 @@
   }
 
   function last(fn){
+    checkIflist(this._list,"Last");
     if(fn){
       this.where(fn);
     }
@@ -240,6 +266,7 @@
   }
 
   function lastOrDefault(fn){
+    checkIflist(this._list,"LastOrDefault");
     if(fn){
       this.where(fn);
     }
@@ -253,35 +280,43 @@
   //evaluators
 
   function eWhere(fn) {
+    checkIflist(this._list,"Where");
     this._setArray(this._getArray().filter(parse(fn)));
   }
 
   function eSelect(fn) {
+    checkIflist(this._list,"Select");
     this._setArray(this._getArray().map(parse(fn)));
   }
 
   function eSkip(number) {
+    checkIflist(this._list,"Skip");
     this._setArray(this._getArray().slice(number));
   }
 
   function eTake(number) {
+    checkIflist(this._list,"Take");
     this._setArray(this._getArray().slice(0,number));
   }
 
   function eSkipTake(numbers){
+    checkIflist(this._list,"SkipTake");
     this._setArray(this._getArray().slice(numbers[0],numbers[0] + numbers[1]));
   }
 
   function eReverse(){
+    checkIflist(this._list,"Reverse");
     this._setArray(this._getArray().reverse());
   }
 
   function eRemoveAll(fn) {
+    checkIflist(this._list,"RemoveAll");
     fn = parse(fn);
     this._setArray(this._getArray().filter(function(d){return !fn(d);}));
   }
 
   function eGroupBy(mappingFunctions) {
+    checkIflist(this._list,"GroupBy");
     keyFn = parse(mappingFunctions[0]);
     valueFn = parse(mappingFunctions[1]);
     this._setArray(this._getArray().reduce(function(c,l){
@@ -295,8 +330,23 @@
       return c;
     },{}));
   }
+  function eOrderBy(fn) {
+    checkIflist(this._list,"OrderBy");
+    fn = parse(fn);
+    this._list.sort(sortingFn(fn));
+  }
 
   //helpers
+  function sortingFn(fn){
+    return function(a,b){
+      a = fn(a);
+      b = fn(b);
+      if (a < b) return -1;
+      if (a > b) return 1;
+      return 0;
+    };
+  }
+
   function _enqueueExpression(eFn,param){
     var queue = this._queriesQueue;
     if(queue.length >= 1){
@@ -357,9 +407,15 @@
     return !!(obj && obj.constructor && obj.call && obj.apply);
   }
 
-  function checkIfNumber(number){
+  function checkIfNumber(number,fName){
     if(typeof number !== "number"){
-      throw new Error("Skip expects a number !")
+      throw new Error(fName + " expects a number !")
+    }
+    return true;
+  }
+  function checkIflist(array,fName){
+    if(!Array.isArray(array)){
+      throw new Error(fName + " expects an array !")
     }
     return true;
   }
