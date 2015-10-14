@@ -20,7 +20,17 @@
     it("To Array - Returns Array", function() {
       expect((new LINQ(array)).toArray()).toEqual(array);
     });
+    it("To Array - From Dictionary Array", function() {
+      expect((new LINQ(array).groupBy("m=>m.firstName")).toArray()).toEqual(groupedNamesArray);
+    });
   });
+
+  //To Dictionary suite
+  describe("To Dictionary",function(){
+    it("To Dictionary - Is defined",function(){
+      expect((new LINQ(array)).toDictionary).toBeDefined();
+    });
+  })
 
   //where suite
   describe("Where function", function() {
@@ -484,8 +494,8 @@
     it("GroupBy - no param",function(){
       expect(new LINQ(array).groupBy).toThrow();
     });
-    it("GroupBy - firstname as a key",function(){
-      expect(new LINQ(array).groupBy("m=>m.firstName").toArray()).toEqual(groupedNames);
+    it("GroupBy - firstname as a key - toDictionary",function(){
+      expect(new LINQ(array).groupBy("m=>m.firstName").toDictionary()).toEqual(groupedNames);
     });
   });
 })();

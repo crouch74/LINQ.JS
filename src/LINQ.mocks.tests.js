@@ -87,3 +87,5 @@ var groupedNames = {"Harding":[{"id":0,"firstName":"Harding","lastName":"Mills"}
 "Mcconnell":[{"id":11,"firstName":"Mcconnell","lastName":"Ochoa"}],"Alexandra":[{"id":12,"firstName":"Alexandra","lastName":"Villarreal"},{"id":18,"firstName":"Alexandra","lastName":"Chandler"}],
 "Brandi":[{"id":13,"firstName":"Brandi","lastName":"Harmon"}],"Karyn":[{"id":14,"firstName":"Karyn","lastName":"Small"},{"id":17,"firstName":"Karyn","lastName":"Harmon"}],
 "Suzanne":[{"id":15,"firstName":"Suzanne","lastName":"Chandler"},{"id":16,"firstName":"Suzanne","lastName":"Small"}]};
+
+var groupedNamesArray = Object.keys(groupedNames).map(key=>[key,groupedNames[key]]);

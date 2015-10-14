@@ -36,6 +36,7 @@
 
     //API
     this.toArray = toArray;
+    this.toDictionary = toDictionary;
     this.where = where;
     this.select = select;
     this.count = count;
@@ -72,6 +73,17 @@
   //API
   function toArray() {
     this._evaluateExpressions();
+    if(!Array.isArray(this._list)){
+      this._list = dictionaryToArray(this._list);
+    }
+    return this._list;
+  }
+
+  function toDictionary(){
+    this._evaluateExpressions();
+    if(Array.isArray(this._list)){
+      throw new Exception("Can't convert array into dictionary !");
+    }
     return this._list;
   }
 
@@ -338,6 +350,13 @@
       throw new Error("Skip expects a number !")
     }
     return true;
+  }
+
+  function dictionaryToArray(dic){
+    keys = Object.keys(dic);
+    return keys.map(function(key){
+      return [key,dic[key]];
+    });
   }
 
   function ctor(array) {
