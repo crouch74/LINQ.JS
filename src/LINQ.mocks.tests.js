@@ -89,3 +89,8 @@ var groupedNames = {"Harding":[{"id":0,"firstName":"Harding","lastName":"Mills"}
 "Suzanne":[{"id":15,"firstName":"Suzanne","lastName":"Chandler"},{"id":16,"firstName":"Suzanne","lastName":"Small"}]};
 
 var groupedNamesArray = Object.keys(groupedNames).map(key=>[key,groupedNames[key]]);
+
+var idFirstNameDict = array.reduce(function(c,l){
+  c[l.id] =l.firstName;
+  return c;
+},{})

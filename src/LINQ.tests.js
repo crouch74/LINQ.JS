@@ -30,6 +30,12 @@
     it("To Dictionary - Is defined",function(){
       expect((new LINQ(array)).toDictionary).toBeDefined();
     });
+    it("To Dictionary - Array no mapping",function(){
+      expect(function(){new LINQ(array).toDictionary()}).toThrow();
+    });
+    it("To Dictionary - Array with mapping",function(){
+      expect(new LINQ(array).toDictionary("x=>x.id","x=>x.firstName")).toEqual(idFirstNameDict);
+    });
   })
 
   //where suite

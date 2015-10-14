@@ -79,10 +79,16 @@
     return this._list;
   }
 
-  function toDictionary(){
+  function toDictionary(keyFn,valueFn){
     this._evaluateExpressions();
     if(Array.isArray(this._list)){
-      throw new Exception("Can't convert array into dictionary !");
+      if(!keyFn && !valueFn){
+        throw new Exception("An array can't be converted to a dictionary without mapping functions");
+      }else{
+        keyFn = parse(keyFn);
+        valueFn = parse(valueFn);
+        this._list = arrayToDictionary(this._list,keyFn,valueFn);
+      }
     }
     return this._list;
   }
@@ -357,6 +363,13 @@
     return keys.map(function(key){
       return [key,dic[key]];
     });
+  }
+
+  function arrayToDictionary(array,keyFn,valueFn){
+    return array.reduce(function(c,l){
+      c[keyFn(l)] = valueFn(l);
+      return c;
+    },{});
   }
 
   function ctor(array) {
