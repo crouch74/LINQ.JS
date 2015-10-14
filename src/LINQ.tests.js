@@ -473,4 +473,19 @@
     });
   });
 
+  //groupBy suite
+  describe("GroupBy function",function(){
+    it("GroupBy - defined",function(){
+      expect(new LINQ(array).groupBy).toBeDefined();
+    });
+    it("GroupBy - chaining",function(){
+      expect(new LINQ(array).groupBy("x=>x.firstName").toArray).toBeDefined();
+    });
+    it("GroupBy - no param",function(){
+      expect(new LINQ(array).groupBy).toThrow();
+    });
+    it("GroupBy - firstname as a key",function(){
+      expect(new LINQ(array).groupBy("m=>m.firstName").toArray()).toEqual(groupedNames);
+    });
+  });
 })();

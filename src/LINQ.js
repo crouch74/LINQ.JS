@@ -32,6 +32,7 @@
     this._eSkipTake = eSkipTake;
     this._eReverse = eReverse;
     this._eRemoveAll = eRemoveAll;
+    this._eGroupBy = eGroupBy;
 
     //API
     this.toArray = toArray;
@@ -54,6 +55,7 @@
     this.firstOrDefault = firstOrDefault;
     this.last = last;
     this.lastOrDefault = lastOrDefault;
+    this.groupBy = groupBy;
 
     return this;
   }
@@ -75,6 +77,10 @@
 
   function where(fn) {
     this._enqueueExpression("where", fn);
+    return this;
+  }
+  function groupBy(fn) {
+    this._enqueueExpression("groupBy", fn);
     return this;
   }
 
@@ -251,6 +257,19 @@
   function eRemoveAll(fn) {
     fn = parse(fn);
     this._setArray(this._getArray().filter(function(d){return !fn(d);}));
+  }
+
+  function eGroupBy(fn) {
+    fn = parse(fn);
+    this._setArray(this._getArray().reduce(function(c,l){
+      var key = fn(l);
+      if(c[key]){
+        c[key].push(l);
+      }else{
+        c[key] = [l];
+      }
+      return c;
+    },{}));
   }
 
   //helpers
