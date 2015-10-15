@@ -35,7 +35,7 @@
     this._eGroupBy = eGroupBy;
     this._eOrderBy = eOrderBy;
     this._eDistinct = eDistinct;
-
+    this._eIntersect = eIntersect
 
     //API
     this.toArray = toArray;
@@ -63,6 +63,7 @@
     this.orderBy = orderBy;
     this.orderByDescending = orderByDescending;
     this.distinct = distinct;
+    this.intersect = intersect;
 
     return this;
   }
@@ -152,6 +153,12 @@
 
   function distinct(){
     this._enqueueExpression("distinct");
+    return this;
+  }
+
+  function intersect(array){
+    this.distinct();
+    this._enqueueExpression("intersect",array)
     return this;
   }
 
@@ -341,6 +348,21 @@
     checkIflist(this._getArray(),"OrderBy");
     fn = parse(fn);
     this._setArray(this._getArray().sort(sortingFn(fn)));
+  }
+
+  function eIntersect(array) {
+    checkIflist(this._getArray(),"Intersect");
+    checkIflist(array,"Intersect");
+    if(array.length == 0 ) {
+      this._setArray([]);
+      return;
+    }
+    this._setArray(this._getArray().reduce(function(c,l){
+      if(indexOf(array,l) > -1){
+        c.push(l);
+      }
+      return c;
+    },[]));
   }
 
   function eDistinct(){

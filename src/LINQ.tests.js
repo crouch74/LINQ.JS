@@ -597,6 +597,9 @@
       expect(new LINQ(array).distinct)
         .toBeDefined()
     });
+    it("Intersect - Chaining", function() {
+      expect((new LINQ(array)).distinct().toArray).toBeDefined();
+    });
     it("Distinct - Strings", function() {
       expect(new LINQ(["Harding", "Kristine", "Johnson", "Clay", "Owens", "Farmer", "Turner", "Gina", "Clay", "Battle", "Aguirre", "Owens", "Powell", "Mcconnell", "Alexandra", "Powell"]).distinct().toArray().length)
         .toEqual(["Harding", "Kristine", "Johnson", "Owens", "Farmer", "Turner", "Gina", "Clay", "Battle", "Aguirre", "Powell", "Mcconnell", "Alexandra"].length);
@@ -609,5 +612,31 @@
       expect(new LINQ([{x:1,y:2,z:{x:1,y:2}},{x:0,y:2,z:[1,2,3]},{x:1,y:2,z:{x:1,y:2}},{x:0,y:2,z:[1,2,3]},{x:1,y:2,z:{x:1,y:2}},{x:1,y:5},{x:4,y:7},{x:1,y:2},{x:1,y:2},{x:4,y:9},{x:0,y:2},{x:0,y:2}]).distinct().toArray())
         .toEqual([{x:1,y:2,z:{x:1,y:2}},{x:0,y:2,z:[1,2,3]},{x:1,y:5},{x:4,y:7},{x:1,y:2},{x:4,y:9},{x:0,y:2}]);
     });
-  })
+  });
+
+  //intersect suite
+  describe("Intersect function",function(){
+    it("Intersect - Is defined",function(){
+      expect(new LINQ([1,2,3]).intersect).toBeDefined();
+    });
+    it("Intersect - Chaining", function() {
+      expect((new LINQ(array)).intersect([]).toArray).toBeDefined();
+    });
+    it("Intersect - array of numbers",function(){
+      expect(new LINQ([1,2,3,4,5,6,7,8]).intersect([2,4]).toArray()).toEqual([2,4]);
+      expect(new LINQ([1,2,3,4,5,6,7,8]).intersect([2,4,15,25,37]).toArray()).toEqual([2,4]);
+    });
+    it("Intersect - array of numbers and an empty array",function(){
+      expect(new LINQ([1,2,3,4,5]).intersect([]).toArray()).toEqual([]);
+    });
+    it("Intersect - array of objects",function(){
+      expect(new LINQ([{x:"1"},{x:"2"},{x:"3"},{x:"4"}]).intersect([{x:"1"},{x:"3"},{x:"5"},{x:"9"}]).toArray()).toEqual([{x:"1"},{x:"3"}]);
+    });
+    it("Intersect - array of objects no distinct",function(){
+      expect(new LINQ([{x:"1"},{x:"2"},{x:"3"},{x:"3"},{x:"4"}]).intersect([{x:"1"},{x:"3"},{x:"3"},{x:"5"},{x:"9"}]).toArray()).toEqual([{x:"1"},{x:"3"}]);
+    });
+    it("Intersect - array of objects intersect with not-array",function(){
+      expect(function(){new LINQ([{x:"1"},{x:"2"},{x:"3"},{x:"3"},{x:"4"}]).intersect("test").toArray()}).toThrow();
+    });
+  });
 })();
