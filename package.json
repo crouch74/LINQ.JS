@@ -1,17 +1,21 @@
 {
-  "name": "LINQ",
+  "name": "LINQJS",
   "version": "1.0.0",
-  "description": "An npm package to implement a .NET LINQ like queries for javascript",
+  "description": "A JS library implements LINQ like queries for javascript",
   "main": "LINQ.min.js",
   "scripts": {
-    "test": "test"
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/crouch74/LINQ.JS.git"
   },
   "keywords": [
     "LINQ",
     "Arrays",
     "Query"
   ],
-  "author": "Ahmed Eid",
+  "author": "Ahmed Eid <ahmedeeid@outlook.com>",
   "license": "ISC",
   "devDependencies": {
     "grunt": "^0.4.5",
