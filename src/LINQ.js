@@ -357,28 +357,38 @@
   //helpers
   function indexOf(arr,obj){
     for(i in arr){
-      if(isEqual(arr[i],obj)){
+      if(typeof obj === "object"?isEqual(arr[i],obj) : arr[i] == obj){
         return parseInt(i);
       }
     }
     return -1;
   }
   function isEqual(a,b){
-    //implement in case of ===
     //implement in case of arrays
     ////optimize by length first
     if(a === b) return true;
     if(a == b) return true;
     if(typeof a !== typeof b) return false;
-    if (typeof a != "object")
+    if (typeof a !== "object")
       return a == b;
-
+    if(Array.isArray(a)){
+      if(Array.isArray(b)){
+        if(a.length !== b.length)return false;
+        return (a.every(function(e){
+          return indexOf(b,e) > -1;
+        }) && b.every(function(e){
+          return indexOf(a,e) > -1;
+        }));
+      }
+      return false;
+    }
     aProps = Object.keys(a);
     bProps = Object.keys(b);
+    if(aProps.length !== bProps.length) return false;
     return (aProps.every(function(k){
-      return (typeof a[k] === 'object') ? equals(a[k], b[k]) : isEqual(a[k],b[k]);
+      return (typeof a[k] === 'object') ? isEqual(a[k], b[k]) : isEqual(a[k],b[k]);
     }) && bProps.every(function(k){
-      return (typeof b[k] === 'object') ? equals(b[k], a[k]) : isEqual(b[k],a[k]);
+      return (typeof b[k] === 'object') ? isEqual(b[k], a[k]) : isEqual(b[k],a[k]);
     }));
   }
 

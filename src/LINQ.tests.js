@@ -605,5 +605,9 @@
       expect(new LINQ([{x:1,y:2},{x:0,y:2},{x:1,y:5},{x:4,y:7},{x:1,y:2},{x:4,y:9},{x:0,y:2}]).distinct().toArray())
         .toEqual([{x:1,y:2},{x:0,y:2},{x:1,y:5},{x:4,y:7},{x:4,y:9}]);
     });
+    it("Distinct - Nested Objects", function() {
+      expect(new LINQ([{x:1,y:2,z:{x:1,y:2}},{x:0,y:2,z:[1,2,3]},{x:1,y:2,z:{x:1,y:2}},{x:0,y:2,z:[1,2,3]},{x:1,y:2,z:{x:1,y:2}},{x:1,y:5},{x:4,y:7},{x:1,y:2},{x:1,y:2},{x:4,y:9},{x:0,y:2},{x:0,y:2}]).distinct().toArray())
+        .toEqual([{x:1,y:2,z:{x:1,y:2}},{x:0,y:2,z:[1,2,3]},{x:1,y:5},{x:4,y:7},{x:1,y:2},{x:4,y:9},{x:0,y:2}]);
+    });
   })
 })();
