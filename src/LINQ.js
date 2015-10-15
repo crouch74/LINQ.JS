@@ -34,6 +34,7 @@
     this._eRemoveAll = eRemoveAll;
     this._eGroupBy = eGroupBy;
     this._eOrderBy = eOrderBy;
+    this._eDistinct = eDistinct;
 
 
     //API
@@ -61,6 +62,7 @@
     this.groupBy = groupBy;
     this.orderBy = orderBy;
     this.orderByDescending = orderByDescending;
+    this.distinct = distinct;
 
     return this;
   }
@@ -148,8 +150,13 @@
     return this;
   }
 
+  function distinct(){
+    this._enqueueExpression("distinct");
+    return this;
+  }
+
   function count(fn) {
-    checkIflist(this._list,"Count");
+    checkIflist(this._getArray(),"Count");
     if (fn) {
       this.where(fn);
     }
@@ -157,7 +164,7 @@
   }
 
   function max(fn) {
-    checkIflist(this._list,"Max");
+    checkIflist(this._getArray(),"Max");
     if (fn) {
       this.select(fn);
     }
@@ -165,7 +172,7 @@
   }
 
   function min(fn) {
-    checkIflist(this._list,"Min");
+    checkIflist(this._getArray(),"Min");
     if (fn) {
       this.select(fn);
     }
@@ -173,17 +180,17 @@
   }
 
   function any(fn) {
-    checkIflist(this._list,"Any");
+    checkIflist(this._getArray(),"Any");
     return this.toArray().some(parse(fn));
   }
 
   function all(fn){
-    checkIflist(this._list,"All");
+    checkIflist(this._getArray(),"All");
     return this.toArray().every(parse(fn));
   }
 
   function sum(fn){
-    checkIflist(this._list,"Sum");
+    checkIflist(this._getArray(),"Sum");
     if (fn) {
       this.select(fn);
     }
@@ -191,7 +198,7 @@
   }
 
   function average(fn){
-    checkIflist(this._list,"Average");
+    checkIflist(this._getArray(),"Average");
     if(fn){
       this.select(fn);
     }
@@ -200,7 +207,7 @@
   }
 
   function single(fn){
-    checkIflist(this._list,"Single");
+    checkIflist(this._getArray(),"Single");
     if(fn){
       this.where(fn);
     }
@@ -215,7 +222,7 @@
   }
 
   function singleOrDefault(fn){
-    checkIflist(this._list,"SingleOrDefault");
+    checkIflist(this._getArray(),"SingleOrDefault");
     if(fn){
       this.where(fn);
     }
@@ -230,7 +237,7 @@
   }
 
   function first(fn){
-    checkIflist(this._list,"First");
+    checkIflist(this._getArray(),"First");
     if(fn){
       this.where(fn);
     }
@@ -242,7 +249,7 @@
   }
 
   function firstOrDefault(fn){
-    checkIflist(this._list,"FirstOrDefault");
+    checkIflist(this._getArray(),"FirstOrDefault");
     if(fn){
       this.where(fn);
     }
@@ -254,7 +261,7 @@
   }
 
   function last(fn){
-    checkIflist(this._list,"Last");
+    checkIflist(this._getArray(),"Last");
     if(fn){
       this.where(fn);
     }
@@ -266,7 +273,7 @@
   }
 
   function lastOrDefault(fn){
-    checkIflist(this._list,"LastOrDefault");
+    checkIflist(this._getArray(),"LastOrDefault");
     if(fn){
       this.where(fn);
     }
@@ -280,43 +287,43 @@
   //evaluators
 
   function eWhere(fn) {
-    checkIflist(this._list,"Where");
+    checkIflist(this._getArray(),"Where");
     this._setArray(this._getArray().filter(parse(fn)));
   }
 
   function eSelect(fn) {
-    checkIflist(this._list,"Select");
+    checkIflist(this._getArray(),"Select");
     this._setArray(this._getArray().map(parse(fn)));
   }
 
   function eSkip(number) {
-    checkIflist(this._list,"Skip");
+    checkIflist(this._getArray(),"Skip");
     this._setArray(this._getArray().slice(number));
   }
 
   function eTake(number) {
-    checkIflist(this._list,"Take");
+    checkIflist(this._getArray(),"Take");
     this._setArray(this._getArray().slice(0,number));
   }
 
   function eSkipTake(numbers){
-    checkIflist(this._list,"SkipTake");
+    checkIflist(this._getArray(),"SkipTake");
     this._setArray(this._getArray().slice(numbers[0],numbers[0] + numbers[1]));
   }
 
   function eReverse(){
-    checkIflist(this._list,"Reverse");
+    checkIflist(this._getArray(),"Reverse");
     this._setArray(this._getArray().reverse());
   }
 
   function eRemoveAll(fn) {
-    checkIflist(this._list,"RemoveAll");
+    checkIflist(this._getArray(),"RemoveAll");
     fn = parse(fn);
     this._setArray(this._getArray().filter(function(d){return !fn(d);}));
   }
 
   function eGroupBy(mappingFunctions) {
-    checkIflist(this._list,"GroupBy");
+    checkIflist(this._getArray(),"GroupBy");
     keyFn = parse(mappingFunctions[0]);
     valueFn = parse(mappingFunctions[1]);
     this._setArray(this._getArray().reduce(function(c,l){
@@ -331,12 +338,50 @@
     },{}));
   }
   function eOrderBy(fn) {
-    checkIflist(this._list,"OrderBy");
+    checkIflist(this._getArray(),"OrderBy");
     fn = parse(fn);
-    this._list.sort(sortingFn(fn));
+    this._setArray(this._getArray().sort(sortingFn(fn)));
+  }
+
+  function eDistinct(){
+    checkIflist(this._getArray(),"Distinct");
+    var arr = this._getArray();
+    this._setArray(arr.reduce(function(c,l,i){
+      if(indexOf(arr,l) === i){
+        c.push(l);
+      };
+      return c;
+    },[]));
   }
 
   //helpers
+  function indexOf(arr,obj){
+    for(i in arr){
+      if(isEqual(arr[i],obj)){
+        return parseInt(i);
+      }
+    }
+    return -1;
+  }
+  function isEqual(a,b){
+    //implement in case of ===
+    //implement in case of arrays
+    ////optimize by length first
+    if(a === b) return true;
+    if(a == b) return true;
+    if(typeof a !== typeof b) return false;
+    if (typeof a != "object")
+      return a == b;
+
+    aProps = Object.keys(a);
+    bProps = Object.keys(b);
+    return (aProps.every(function(k){
+      return (typeof a[k] === 'object') ? equals(a[k], b[k]) : isEqual(a[k],b[k]);
+    }) && bProps.every(function(k){
+      return (typeof b[k] === 'object') ? equals(b[k], a[k]) : isEqual(b[k],a[k]);
+    }));
+  }
+
   function sortingFn(fn){
     return function(a,b){
       a = fn(a);
