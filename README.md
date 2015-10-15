@@ -21,4 +21,3 @@ ISC
   - Array.prototype.some
   - Array.prototype.every
   - Array.prototype.filter
-- Implement toArray to support lazy evaluating(enumerator).
