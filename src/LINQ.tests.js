@@ -639,4 +639,31 @@
       expect(function(){new LINQ([{x:"1"},{x:"2"},{x:"3"},{x:"3"},{x:"4"}]).intersect("test").toArray()}).toThrow();
     });
   });
+  //join suite
+  describe("Join function",function(){
+    it("Join - Is defined",function(){
+      expect(new LINQ([1,2,3]).join).toBeDefined();
+    });
+    it("Join - Chaining", function() {
+      expect((new LINQ([1,2,3])).join(array,"x=>x","y=>y.id","x,y=>y").toArray).toBeDefined();
+    });
+    it("Join - array of numbers",function(){
+      expect(new LINQ([1,2,3]).join(array,"x=>x","y=>y.id","x,y=>y.firstName").toArray()).toEqual(["Kristine","Johnson","Owens"]);
+      expect(new LINQ([1,2,3,95,44]).join(array,"x=>x","y=>y.id","x,y=>y.firstName").toArray()).toEqual(["Kristine","Johnson","Owens"]);
+    });
+    it("Join - array of numbers and an empty array",function(){
+      expect(new LINQ([1,2,3,4,5]).join([],"x=>x","y=>y.id","x,y=>y.firstName").toArray()).toEqual([]);
+    });
+    it("Join - array of objects",function(){
+      expect(new LINQ([{x:"1"},{x:"2"},{x:"3"},{x:"4"}]).join([{x:1,y:1},{x:3,y:3},{x:5,y:5},{x:9}]
+        ,"x=>x.x","y=>y.x","x,y=>y.x+y.y").toArray()).toEqual([2,6]);
+    });
+    it("Join - array of objects no distinct",function(){
+      expect(new LINQ([{x:1},{x:2},{x:3},{x:3},{x:4}]).join([{x:1},{x:3},{x:3},{x:5},{x:9}],"x=>x.x","y=>y.x",
+        "x,y=>x.x").toArray()).toEqual([1,3,3,3,3]);
+    });
+    it("Join - array of objects koins with not-array",function(){
+      expect(function(){new LINQ([{x:"1"},{x:"2"},{x:"3"},{x:"3"},{x:"4"}]).join("test").toArray()}).toThrow();
+    });
+  });
 })();

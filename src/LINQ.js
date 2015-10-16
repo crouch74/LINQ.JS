@@ -35,7 +35,8 @@
     this._eGroupBy = eGroupBy;
     this._eOrderBy = eOrderBy;
     this._eDistinct = eDistinct;
-    this._eIntersect = eIntersect
+    this._eIntersect = eIntersect;
+    this._eJoin = eJoin;
 
     //API
     this.toArray = toArray;
@@ -64,6 +65,7 @@
     this.orderByDescending = orderByDescending;
     this.distinct = distinct;
     this.intersect = intersect;
+    this.join = join;
 
     return this;
   }
@@ -153,6 +155,11 @@
 
   function distinct(){
     this._enqueueExpression("distinct");
+    return this;
+  }
+
+  function join(arr,key1Fn,key2Fn,resultFn){
+    this._enqueueExpression("join",[arr,key1Fn,key2Fn,resultFn]);
     return this;
   }
 
@@ -348,6 +355,25 @@
     checkIflist(this._getArray(),"OrderBy");
     fn = parse(fn);
     this._setArray(this._getArray().sort(sortingFn(fn)));
+  }
+
+  function eJoin(params) {
+    checkIflist(this._getArray(),"Join");
+    checkIflist(params[0],"Join");
+    arr = params[0];
+    key1Fn = parse(params[1]);
+    key2Fn = parse(params[2]);
+    resultFn = parse(params[3]);
+    this._setArray(this._getArray().reduce(function(c,l){
+      var matchedElements = arr.filter(function(e){
+        return isEqual(key1Fn(l),key2Fn(e));
+      });
+      var joinedElements = matchedElements.map(function(e){
+        return resultFn(l,e);
+      });
+      c = c.concat(joinedElements);
+      return c;
+    },[]));
   }
 
   function eIntersect(array) {
