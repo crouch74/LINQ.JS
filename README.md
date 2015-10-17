@@ -34,7 +34,7 @@ to run all tests and generate a LINQ.min.js file if it passed
 
 after all of that ,, please submit your PR and it will be reviewed and merged
 
-Thanks for being interested in enhance Linqer
+Thanks for being interested in enhancing Linqer
 
 #TODO
 - Implement functions to support <ES5.1 ,, implement :
