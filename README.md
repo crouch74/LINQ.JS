@@ -1,4 +1,4 @@
-# JSLINQ
+# LINQER
 
 An npm package to implement a .NET LINQ like queries for javascript
 
