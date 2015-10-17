@@ -1,6 +1,6 @@
 {
   "name": "linqer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A JS library implements LINQ like queries for javascript",
   "main": "LINQ.min.js",
   "scripts": {
