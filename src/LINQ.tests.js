@@ -666,4 +666,29 @@
       expect(function(){new LINQ([{x:"1"},{x:"2"},{x:"3"},{x:"3"},{x:"4"}]).join("test").toArray()}).toThrow();
     });
   });
+
+  //selectMany suite
+  describe("SelectMany function", function() {
+    it("SelectMany - defined", function() {
+      expect(new LINQ(petsOwners).selectMany).toBeDefined();
+    });
+    it("SelectMany - Chaining", function() {
+      expect((new LINQ(petsOwners)).selectMany("x=>x.pets").toArray).toBeDefined();
+      expect((new LINQ(petsOwners)).selectMany(function(x){return x.pets}).toArray).toBeDefined();
+    });
+
+    it("SelectMany - children only", function() {
+      expect((new LINQ(petsOwners)).selectMany("x=>x.pets").toArray()).toEqual(pets);
+    });
+    it("SelectMany - chilren and index", function() {
+      expect((new LINQ(petsOwners)).selectMany(function(pO,index){
+        return pO.pets.map(function(p){return index+"-"+p;});
+      }).toArray()).toEqual(petsIndex);
+    });
+    it("SelectMany - chilren and parents", function() {
+      expect((new LINQ(petsOwners)).selectMany("pOwner=>pOwner.pets","pOwner,pName=>pOwner.id+'-'+pName").toArray()).toEqual(petsIndex);
+    });
+  });
+
+
 })();

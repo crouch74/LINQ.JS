@@ -96,3 +96,25 @@ var idFirstNameDict = array.reduce(function(c,l){
   c[l.id] =l.firstName;
   return c;
 },{})
+
+
+var petsOwners = [
+  {
+    id: "0",
+    name: "Higa, Sidney",
+    pets: ["Scruffy", "Sam" ]
+  },
+  {
+    id:"1",
+    name: "Ashkenazi, Ronen",
+    pets: ["Walker", "Sugar"]
+  },
+  {
+    id:"2",
+    name: "Price, Vernette",
+    pets: ["Scratches", "Diesel" ]
+  }
+];
+
+var pets = ["Scruffy", "Sam" ,"Walker", "Sugar","Scratches", "Diesel"];
+var petsIndex = ["0-Scruffy", "0-Sam" ,"1-Walker", "1-Sugar","2-Scratches", "2-Diesel"];
