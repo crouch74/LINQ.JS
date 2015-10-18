@@ -19,7 +19,7 @@ ISC
 
 DOCS
 ====
-Please get full details about the functinality here [DOCUMENTAION](DOCUMENTAION.md)
+Please get full details about the functinality here [DOCUMENTAION](https://github.com/crouch74/Linqer/blob/master/DOCUMENTATION.md)
 
 contribution
 ============
