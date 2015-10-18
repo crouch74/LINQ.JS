@@ -17,6 +17,10 @@ license
 
 ISC
 
+DOCS
+====
+Please get full details about the functinality here (DOCUMENTAION)[DOCUMENTAION.md]
+
 contribution
 ============
 
@@ -55,3 +59,5 @@ TODO
 	-	Array.prototype.filter
 -	Add more test cases
 -	Hide private methods of evaluating queries and the list getter/setter
+-	Add takeWhile,skipWhile functionality
+-	Add thenBy functionality
